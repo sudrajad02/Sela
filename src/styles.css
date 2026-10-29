@@ -1,0 +1,294 @@
+html,
+body {
+  overflow: hidden;
+}
+
+:root {
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #ffffff;
+  background: transparent;
+  font-synthesis: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: transparent;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+#app {
+  display: flex;
+  justify-content: center;
+  padding: 0 24px 28px;
+}
+
+.island {
+  position: relative;
+  user-select: none;
+  flex-shrink: 0;
+  width: 220px;
+  background: #000000;
+  border: none;
+  border-radius: 0 0 18px 18px;
+  box-shadow: 0 8px 20px #00000045;
+  transition:
+    width 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  -webkit-user-select: none;
+}
+
+/* Lengkungan cekung (concave ears) di sudut kiri & kanan atas agar menyatu dengan bezel layar */
+.island::before,
+.island::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+.island::before {
+  left: -16px;
+  background: radial-gradient(
+    circle at 0 100%,
+    transparent 16px,
+    #000000 16.5px
+  );
+}
+
+.island::after {
+  right: -16px;
+  background: radial-gradient(
+    circle at 100% 100%,
+    transparent 16px,
+    #000000 16.5px
+  );
+}
+
+.island.is-open {
+  width: 360px;
+  border-radius: 0 0 24px 24px;
+}
+
+.island-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  padding: 8px 22px 10px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.island-toggle:focus-visible {
+  outline: 2px solid #1d7dfa;
+  outline-offset: -4px;
+  border-radius: 0 0 16px 16px;
+}
+
+.notch-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.ring-svg {
+  width: 24px;
+  height: 24px;
+  transform: rotate(-90deg);
+}
+
+.ring-track {
+  fill: none;
+  stroke: #1d7dfa38;
+  stroke-width: 3.4;
+}
+
+.ring-progress {
+  fill: none;
+  stroke: #1d7dfa;
+  stroke-width: 3.4;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 250ms ease;
+}
+
+.droplet-svg {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  fill: #ffffff;
+}
+
+#clock {
+  margin-left: auto;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  font-variant-numeric: tabular-nums;
+}
+
+#panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 220ms ease;
+}
+
+.island.is-open #panel {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.panel-inner {
+  min-height: 0;
+  overflow: hidden;
+  width: 100%;
+  padding: 0 24px;
+  transition: padding 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.island.is-open .panel-inner {
+  padding: 8px 24px 24px;
+}
+
+.label {
+  color: #60a5fa;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.focus-widget {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #1f2229;
+}
+
+#focus-time {
+  display: block;
+  margin: 12px 0 16px;
+  color: #ffffff;
+  font-size: 42px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.focus-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.focus-actions button {
+  padding: 8px 16px;
+  border: 1px solid #2b2f38;
+  border-radius: 12px;
+  background: #14161b;
+  color: #f2f4f7;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.focus-actions button:hover {
+  background: #1f232b;
+}
+
+#focus-toggle {
+  border-color: #1d7dfa;
+  background: #1d7dfa;
+  color: #ffffff;
+}
+
+#focus-toggle:hover {
+  background: #1567d8;
+}
+
+.focus-presets {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.duration-option {
+  flex: 1;
+  padding: 8px 4px;
+  border: 1px solid #2b2f38;
+  border-radius: 10px;
+  background: transparent;
+  color: #9ca3af;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.duration-option[aria-pressed="true"] {
+  border-color: #1d7dfa;
+  background: #1d7dfa22;
+  color: #60a5fa;
+}
+
+.quick-note {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #1f2229;
+}
+
+.quick-note label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.quick-note textarea {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #2b2f38;
+  border-radius: 12px;
+  background: #0e1014;
+  color: #f2f4f7;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: none;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.quick-note textarea:focus {
+  outline: 2px solid #1d7dfa;
+  outline-offset: 2px;
+}
+
+.quick-note small {
+  display: block;
+  margin-top: 8px;
+  color: #9ca3af;
+  font-size: 11px;
+}
